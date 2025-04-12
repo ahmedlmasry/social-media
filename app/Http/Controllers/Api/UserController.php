@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Events\UserFollowed;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\UserFollowedNotification;
 
 
 class UserController extends Controller
@@ -25,7 +26,7 @@ class UserController extends Controller
         }
          $follower->following()->attach($user->id);
 
-//        $follower->notify(new UserFollowedNotification($user));
+        $follower->notify(new UserFollowedNotification($user));
          UserFollowed::dispatch(auth()->user(),$user);
 
         return response()->json([

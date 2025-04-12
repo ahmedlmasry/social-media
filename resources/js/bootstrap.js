@@ -18,21 +18,21 @@ window.Echo = new Echo({
 
 });
 
-Echo.private('App.Models.User.3')
-    .notification((notification) => {
-        console.log(notification.message);
-    });
+// Echo.private('App.Models.User.3')
+//     .notification((notification) => {
+//         console.log(notification.message);
+//     });
 
-// window.Pusher = Pusher;
-// var pusher = new Pusher('77cd51035dad53e2b7aa', {
-//     cluster: 'mt1'
-// });
-// Pusher.logToConsole = true;
-// var channel = pusher.subscribe('user3');
-//
-// channel.bind('App\\Events\\UserFollowed', function (data) {
-//     console.log(data);
-// });
+window.Pusher = Pusher;
+var pusher = new Pusher('77cd51035dad53e2b7aa', {
+    cluster: 'mt1'
+});
+Pusher.logToConsole = true;
+var channel = pusher.subscribe('user');
+
+channel.bind('App\\Events\\UserFollowed', function (data) {
+    console.log(data);
+});
 // console.log("User ID: ", userId);
 // window.Echo.private(`user.${userId}`)
 //     .listen('user.followed', (e) => {
