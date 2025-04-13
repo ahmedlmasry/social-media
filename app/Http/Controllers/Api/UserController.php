@@ -26,7 +26,7 @@ class UserController extends Controller
         }
          $follower->following()->attach($user->id);
 
-//        $follower->notify(new UserFollowedNotification($user));
+        $follower->notify(new UserFollowedNotification($user));
          UserFollowed::dispatch($follower,$user);
 
         return response()->json([
