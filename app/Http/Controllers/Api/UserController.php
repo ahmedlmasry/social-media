@@ -26,8 +26,8 @@ class UserController extends Controller
         }
          $follower->following()->attach($user->id);
 
-        $follower->notify(new UserFollowedNotification($user));
-         UserFollowed::dispatch(auth()->user(),$user);
+//        $follower->notify(new UserFollowedNotification($user));
+         UserFollowed::dispatch($follower,$user);
 
         return response()->json([
             'message' => __('user.success', ['username' => $user->username]),
@@ -37,7 +37,6 @@ class UserController extends Controller
     public function unfollow(User $user)
     {
         auth()->user()->following()->detach($user->id);
-
         return response()->json([
             'message' => __('user.unfollowed', ['username' => $user->username]),
         ]);

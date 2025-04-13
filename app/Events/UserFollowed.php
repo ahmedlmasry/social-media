@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -15,7 +14,7 @@ class UserFollowed implements ShouldBroadcast
     public $follower;
     public $following;
 
-    public function __construct(User $follower, User $following)
+    public function __construct($follower,$following)
     {
         $this->follower = $follower;
         $this->following = $following;
@@ -28,16 +27,12 @@ class UserFollowed implements ShouldBroadcast
         ];
     }
 
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
-            'message' => __('notifications.followed', ['name' => $this->follower->username]),
+            'message' => __('notifications.user_followed', ['follower' => $this->follower->username]),
             'follower' => $this->follower->only(['id', 'username', 'image'])
         ];
-    }
-    public function broadcastAs()
-    {
-        return 'user-followed';
     }
 
 }

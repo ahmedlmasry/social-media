@@ -42,7 +42,7 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             return ['token'=>$token];
         }
-        return response()->json(['error' => 'Invalid credentials'], 401);
+        return response()->json(['error' => __('auth.failed')], 401);
     }
     public function logout()
     {
