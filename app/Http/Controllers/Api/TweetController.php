@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTweetRequest;
+use App\Http\Resources\TweetResource;
 use App\Models\Tweet;
 
 class TweetController extends Controller
@@ -14,7 +15,7 @@ class TweetController extends Controller
 
         return response()->json([
             'message' => __('tweet.created'),
-            'tweet' => $tweet,
+            'tweet' => new TweetResource($tweet),
         ], 201);
     }
 
@@ -24,11 +25,9 @@ class TweetController extends Controller
             ->whereIn('user_id', auth()->user()->following()->pluck('users.id'))
             ->latest()
             ->paginate(15);
-        if ($tweets->isEmpty()) {
-            return response()->json(['message' => 'no tweets'], 404);
-        }
+
         return response()->json([
-            'tweets' => $tweets,
+            'tweets' => TweetResource::collection($tweets),
         ]);
     }
 
